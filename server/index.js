@@ -5,9 +5,16 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
+const router = require('./router');
+
 const app = express();
 
 // App setup
+
+// Register middleware
+app.use(morgan('tiny'));
+app.use(bodyParser.json({ type: '*/*' }));
+router(app);
 
 // Server setup
 
