@@ -6,6 +6,9 @@ class Header extends Component {
   renderlinks() {
     if (this.props.authenticated) {
       // Show link to sign out
+      {
+        console.log('auth: ' + this.props.authenticated);
+      }
       return (
         <li className="nav-item">
           <Link to="/signout" className="nav-link text-secondary">
@@ -14,6 +17,9 @@ class Header extends Component {
         </li>
       );
     } else {
+      {
+        console.log('no auth: ' + this.props.authenticated);
+      }
       // Show link to sign in or sign up
       return [
         <li className="nav-item" key={1}>

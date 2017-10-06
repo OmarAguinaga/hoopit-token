@@ -5,6 +5,8 @@ import Header from './header';
 import Home from './home';
 import Signin from './auth/signin';
 import Signout from './auth/signout';
+import Signup from './auth/signup';
+import Feature from './feature';
 
 export default class App extends Component {
   render() {
@@ -16,6 +18,8 @@ export default class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/signin" component={Signin} />
           <Route path="/signout" component={Signout} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/feature" component={Feature} />
         </Switch>
       </div>
     );
