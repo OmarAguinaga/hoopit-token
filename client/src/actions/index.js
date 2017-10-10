@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { push } from 'react-router-redux';
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR } from './types';
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_MESSAGE } from './types';
+import history from '../history';
 
 const API_URL = 'http://localhost:3000';
 
@@ -12,21 +12,20 @@ export function signinUser({ username, password }) {
       .post(`${API_URL}/signin`, { username, password })
       .then(response => {
         // If request is good...
-        // - Update state o indicate user is authenticated
+        // - Update state to indicate user is authenticated
         dispatch({ type: AUTH_USER });
-        // - Save the JWT token to local storage
+        // - Save the JWT token
         localStorage.setItem('token', response.data.token);
-        // - Redirect to the route '/feature'
-        browserHistory.push('/feature');
+        // - redirect to the route '/feature'
+        history.push('/feature');
       })
       .catch(() => {
         // If request is bad...
-        // -Show an error to the user
-        dispatch(authError('Bad login info'));
+        // - Show an error to the user
+        dispatch(authError('Bad Login Info'));
       });
   };
 }
-
 export function signupUser({ username, email, password }) {
   return function(dispatch) {
     axios
@@ -34,12 +33,9 @@ export function signupUser({ username, email, password }) {
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        browserHistory.push('/feature');
+        history.push('/feature');
       })
-      .catch(response => {
-        // TODO
-        dispatch(authError('There was an error'));
-      });
+      .catch(response => dispatch(authError('there was an error')));
   };
 }
 
@@ -53,4 +49,19 @@ export function authError(error) {
 export function signoutUser() {
   localStorage.removeItem('token');
   return { type: UNAUTH_USER };
+}
+
+export function fetchMessage() {
+  return function(dispatch) {
+    axios
+      .get(API_URL, {
+        headers: { authorization: localStorage.getItem('token') }
+      })
+      .then(response => {
+        dispatch({
+          type: FETCH_MESSAGE,
+          payload: response.data.message
+        });
+      });
+  };
 }
