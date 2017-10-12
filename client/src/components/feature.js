@@ -6,13 +6,35 @@ class Feature extends Component {
   componentWillMount() {
     this.props.fetchMessage();
   }
+  renderJobs(listing) {
+    const title = listing.title;
+
+    return (
+      <tr key={title}>
+        <td>{title}</td>
+      </tr>
+    );
+  }
+
   render() {
-    return <div>{this.props.message}</div>;
+    if (this.props.listing) {
+      return (
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>Title</th>
+            </tr>
+          </thead>
+          <tbody>{this.props.listing.map(this.renderJobs)}</tbody>
+        </table>
+      );
+    }
+    return <p>Loading</p>;
   }
 }
 
 function mapStateToProps(state) {
-  return { message: state.auth.message };
+  return { listing: state.auth.listing };
 }
 
 export default connect(mapStateToProps, actions)(Feature);

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { browserHistory } from 'react-router';
 import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_MESSAGE } from './types';
 import history from '../history';
+import { AUTH_JOBS_KEY } from '../../config';
 
 const API_URL = 'http://localhost:3000';
 
@@ -51,16 +52,31 @@ export function signoutUser() {
   return { type: UNAUTH_USER };
 }
 
+// export function fetchMessage() {
+//   return function(dispatch) {
+//     axios
+//       .get(API_URL, {
+//         headers: { authorization: localStorage.getItem('token') }
+//       })
+//       .then(response => {
+//         dispatch({
+//           type: FETCH_MESSAGE,
+//           payload: response.data.message
+//         });
+//       });
+//   };
+// }
+
 export function fetchMessage() {
   return function(dispatch) {
     axios
-      .get(API_URL, {
+      .get(`${API_URL}/jobs`, {
         headers: { authorization: localStorage.getItem('token') }
       })
       .then(response => {
         dispatch({
           type: FETCH_MESSAGE,
-          payload: response.data.message
+          payload: response.data.listings.listing
         });
       });
   };
