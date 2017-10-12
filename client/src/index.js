@@ -24,7 +24,7 @@ if (token) {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App />
+      <App history={history} />
     </Router>
   </Provider>,
   document.querySelector('.container')

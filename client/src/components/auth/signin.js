@@ -7,6 +7,7 @@ class Signin extends Component {
   handleFormSubmit({ username, password }) {
     // Need to do something to log user in
     this.props.signinUser({ username, password });
+    this.props.history.push('/feature');
   }
 
   renderField(field) {
